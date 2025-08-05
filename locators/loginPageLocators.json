@@ -1,0 +1,8 @@
+{
+    "usernameInput": "//input[@id='username']",
+    "passwordInput": "//input[@id='LiveTmp_password']",
+    "loginButtonHome": "Log In",
+    "loginButton":"//input[@value='LOG IN']",
+    "infoDana":"//div[@id='info-dana']"
+  }
+  

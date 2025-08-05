@@ -1,0 +1,5 @@
+{
+    "tradeButton": "//a[@class = 'displayBlock linkWidget']",
+    "exchangeDropdown": "//div[@id='option-trade']"
+}
+  

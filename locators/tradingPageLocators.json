@@ -1,5 +1,13 @@
 {
     "tradeButton": "//a[@class = 'displayBlock linkWidget']",
-    "exchangeDropdown": "//div[@id='option-trade']"
+    "exchangeDropdown": "//div[@id='option-trade-desktop']",
+    "exchangeOption": "//select[contains(@class,'tradeDetail border-0')]",
+    "directionBuy": "//div[@id='direction-buy']",
+    "directionSell": "//div[@id='direction-sell']",
+    "minusLotButton": "//div[@id='i_qty_2_value']",
+    "inputQtyLot": "//input[@id='qty']",
+    "plusLotButton": "//div[@id='i_defStepVal']",
+    "orderButton": "//div[@class='oneButton']",
+    "lotValidate": "(//span[@id='i_order_qty_value'])[1]"
 }
-  
+

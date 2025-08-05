@@ -16,9 +16,22 @@ test.describe('Trading tests', () => {
     tradingPage = new TradingPage(page) // Instantiate inside test context
     await loginPage.goto();
     await loginPage.login(username, password);
+    await tradingPage.elements.tradeButton.click();
   });
 
-  test('User selects S&P 500 from Exchange list dropdown by clicking', async () => {
-    await tradingPage.clickExchangeFromDropDown("S&P 500")
+  test('User buys an Open Order on GOLD with 0.1 lot', async () => {
+    await tradingPage.orderOpen();
+  })
+
+  test('User buys an Open Order on GOLD with minimum allowed lot size (e.g., 0.01)', async () => {
+    await tradingPage.orderMinLot();
+  })
+
+  test('User buys an Open Order on GOLD with maximum allowed lot size (e.g., 50)', async () => {
+    await tradingPage.orderMaxLot("50");
+  })
+
+  test('User Buys and Open Order on GOLD With 2 lot by clicking on + button', async () => {
+    await tradingPage.orderOpenClickPlusButton();
   })
 });

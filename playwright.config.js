@@ -3,7 +3,7 @@ require('dotenv').config();
 
 module.exports = defineConfig({
   use: {
-    headless: false,
+    headless: true,
     viewport: null, // Allow full screen
     launchOptions: {
       args: ['--start-maximized'],

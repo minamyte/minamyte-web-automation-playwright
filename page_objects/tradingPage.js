@@ -8,32 +8,134 @@ class TradingPage {
     console.log(this.elements)
   }
 
-  async clickExchangeFromDropDown(exchange){
+  async clickExchangeFromDropDown(exchange) {
     await this.elements.exchangeOption.click();
     await this.elements.exchangeOption.selectOption(exchange);
   }
 
-  async orderOpen(){
+  async orderOpen(direction, lot) {
+    if (direction === "sell") {
+      await this.elements.directionSell.click();
+    }
     await this.elements.orderButton.click();
-    await this.elements.lotValidate.expectTextEqual("buy 0.1 Lot");
+    await this.elements.lotValidate.expectTextEqual(direction + " " + lot + " Lot");
   }
 
-  async orderMinLot(){
-
+  async orderMinLot(direction, lot) {
+    if (direction === "sell") {
+      await this.elements.directionSell.click();
+    }
     await this.elements.minusLotButton.clickrepeat(8)
     await this.elements.orderButton.click();
+    await this.elements.lotValidate.expectTextEqual(direction + " " + lot + " Lot");
   }
 
-  async orderMaxLot(lot){
+  async orderMaxLot(direction, lot) {
+    if (direction === "sell") {
+      await this.elements.directionSell.click();
+    }
     await this.elements.inputQtyLot.fill(lot);
     await this.elements.orderButton.click();
-    //await this.elements.lotValidate.expectTextEqual("buy " + lot + " lot");
+    await this.elements.lotValidate.expectTextEqual("buy " + lot + " lot");
   }
 
-  async orderOpenClickPlusButton(){
+  async orderOpenClickPlusButton(direction, lot) {
+    if (direction === "sell") {
+      await this.elements.directionSell.click();
+    }
     await this.elements.plusLotButton.clickrepeat(9)
     await this.elements.orderButton.click();
-    await this.elements.lotValidate.expectTextEqual("buy 2 Lot")
+    await this.elements.lotValidate.expectTextEqual(direction + " " + lot + " Lot");
+  }
+
+  async orderOpenSetTPSL(direction = "buy", goal = "tp", targetTp, targetSl = null) {
+    let actualTP
+    let actualSL
+    if (direction === "sell") {
+      await this.elements.directionSell.click();
+    }
+
+    const parseValue = (text) => parseFloat(text.replace(/[$\s]/g, ''));
+
+    const config = {
+      tp: {
+        toggle: this.elements.takeProfitToggle,
+        textElement: this.elements.tpGainText,
+        button: this.elements.tpPlusPriceButton,
+        condition: (current, target) => current < target
+      },
+      sl: {
+        toggle: this.elements.stopLossToggle,
+        textElement: this.elements.slLossText,
+        button: this.elements.slMinusPriceButton,
+        condition: (current, target) => current > target
+      }
+    };
+
+    if (goal === "both") {
+
+      const tpTarget = parseFloat(targetTp);
+      const slTarget = parseFloat(targetSl);
+
+      await config.tp.toggle.click();
+      let tpValue = parseValue(await config.tp.textElement.getTextContent());
+      while (config.tp.condition(tpValue, tpTarget)) {
+        await config.tp.button.click();
+        tpValue = parseValue(await config.tp.textElement.getTextContent());
+      }
+
+      await config.sl.toggle.click();
+      let slValue = parseValue(await config.sl.textElement.getTextContent());
+      while (config.sl.condition(slValue, slTarget)) {
+        await config.sl.button.click();
+        slValue = parseValue(await config.sl.textElement.getTextContent());
+      }
+      actualTP = tpValue
+      actualSL = slValue
+    } else {
+
+      const goalConfig = config[goal];
+      if (!goalConfig) {
+        throw new Error(`Invalid goal: '${goal}'. must be "sl", "tp", or "both"`);
+      };
+
+      const targetFloat = parseFloat(target);
+
+      await goalConfig.toggle.click();
+      let currentValue = parseValue(await goalConfig.textElement.getTextContent());
+
+      while (goalConfig.condition(currentValue, targetFloat)) {
+        await goalConfig.button.click();
+        currentValue = parseValue(await goalConfig.textElement.getTextContent());
+      }
+      actualTP = currentValue
+    }
+
+    await this.elements.orderButton.click();
+
+    if (goal === "tp")
+      await this.elements.tpOrderText.expectComparisonByNumber(actualTP.toString(), ">=")
+
+    else if (goal === "sl")
+      await this.elements.slOrderText.expectComparisonByNumber(actualTP.toString(), "<=")
+
+    else {
+      await this.elements.tpOrderText.expectComparisonByNumber(actualTP.toString(), ">=")
+      await this.elements.slOrderText.expectComparisonByNumber(actualSL.toString(), "<=")
+    }
+
+    await this.elements.lotValidate.expectTextEqual(direction + " 0.1 Lot");
+  }
+
+  async orderOpenNegativeLot(direction = "buy", lot){
+    if (direction === "sell") {
+      await this.elements.directionSell.click();
+    }
+    await this.elements.inputQtyLot.fill(lot);
+    await this.elements.orderButton.click();
+    await this.elements.lotValidate.expectNotVisible();
+    await this.elements.errorPopUp.expectVisible();
+    await this.elements.errorPopUp.expectTextEqual("Invalid Parameters");
   }
 }
 

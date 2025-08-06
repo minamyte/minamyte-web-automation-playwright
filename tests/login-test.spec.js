@@ -2,8 +2,8 @@
 require('dotenv').config();
 const { test } = require('@playwright/test');
 const { LoginPage } = require('../page_objects/loginPage');
-const username = process.env.mifx_demo_username
-const password = process.env.mifx_demo_password
+const username = process.env.MIFX_DEMO_USERNAME
+const password = process.env.MIFX_DEMO_PASSWORD
 
 
 test.describe('Login tests', () => {

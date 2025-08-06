@@ -25,6 +25,10 @@ class BasePageObject {
     await expect(this.locator).toBeVisible();
   }
 
+  async expectNotVisible(){
+    await expect(this.locator).toBeHidden();
+  }
+
   async expectTextContains(text) {
     const content = await this.locator.textContent();
     expect(content).toContain(text);
@@ -43,6 +47,31 @@ class BasePageObject {
     await this.locator.selectOption(value)
   }
 
+  async expectComparisonByNumber(text, comparison = '>=') {
+    const content = await this.locator.textContent();
+    const contentToFloat = parseFloat(content.replace(/[($)\s]/g, ''));
+    const target = parseFloat(text);
+  
+    switch (comparison) {
+      case '>=':
+        expect(contentToFloat).toBeGreaterThanOrEqual(target);
+        break;
+      case '<=':
+        expect(contentToFloat).toBeLessThanOrEqual(target);
+        break;
+      case '>':
+        expect(contentToFloat).toBeGreaterThan(target);
+        break;
+      case '<':
+        expect(contentToFloat).toBeLessThan(target);
+        break;
+      case '=':
+        expect(contentToFloat).toBeCloseTo(target); // or use toBe() if exact
+        break;
+      default:
+        throw new Error(`Unsupported comparison operator: ${comparison}`);
+    }
+  }
 }
 
 module.exports = { BasePageObject };

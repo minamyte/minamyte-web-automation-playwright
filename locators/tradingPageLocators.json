@@ -7,7 +7,18 @@
     "minusLotButton": "//div[@id='i_qty_2_value']",
     "inputQtyLot": "//input[@id='qty']",
     "plusLotButton": "//div[@id='i_defStepVal']",
+    "tpPlusPriceButton":"//div[@data-inputid='tp' and contains(@class, 'addQty')]",
+    "tpMinusPriceButton":"//div[@data-inputid='tp' and contains(@class, 'minusQty')]",
+    "slPlusPriceButton":"//div[@data-inputid='sl' and contains(@class, 'addQty')]",
+    "slMinusPriceButton":"//div[@data-inputid='sl' and contains(@class, 'minusQty')]",
     "orderButton": "//div[@class='oneButton']",
+    "tpGainText": "//span[@class='ppvtp']",
+    "slLossText": "//span[@class='ppvsl']",
+    "tpOrderText": "(//span[@data-automation='take profit'])[1]",
+    "slOrderText": "(//span[@data-automation='stop loss'])[1]",
+    "takeProfitToggle": "(//label[@class='switchToggle valignMiddle'])[1]",
+    "stopLossToggle": "(//label[@class='switchToggle valignMiddle'])[2]",
+    "errorPopUp": "//div[@id='flasAlertPopUp-msg']",
     "lotValidate": "(//span[@id='i_order_qty_value'])[1]"
 }
 

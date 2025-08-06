@@ -31,8 +31,8 @@ test.describe('Trading tests', () => {
     await tradingPage.orderMaxLot("buy", "50");
   })
 
-  test('User sells an Open Order on GOLD With 2 lot by clicking on + button', async () => {
-    await tradingPage.orderOpenClickPlusButton("sell","2");
+  test('User sells an Open Order on GOLD With 1 lot by clicking on + button', async () => {
+    await tradingPage.orderOpenClickPlusButton("sell","1");
   })
 
   test('User sells an Open Order on GOLD with 0.1 lot', async () => {
@@ -55,7 +55,7 @@ test.describe('Trading tests', () => {
     await tradingPage.orderOpenSetTPSL("buy", "sl", "-10");
   })
 
-  test('User buys an Open Order on EURUSD and adds both TP and SL simultaneously', async () => {
+  test('User buys an Open Order on GOLD and adds both TP and SL simultaneously', async () => {
     await tradingPage.orderOpenSetTPSL("buy", "both", "10", "-10");
   })
 

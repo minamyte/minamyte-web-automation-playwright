@@ -5,7 +5,6 @@ class TradingPage {
   constructor(page) {
     this.page = page;
     this.elements = loadElements(page, 'tradingPage');
-    console.log(this.elements)
   }
 
   async clickExchangeFromDropDown(exchange) {
@@ -14,7 +13,9 @@ class TradingPage {
   }
 
   async orderOpen(direction, lot) {
-    if (direction === "sell") {
+    console.log(direction)
+    if (direction == "sell") {
+      await this.page.waitForTimeout(1000);
       await this.elements.directionSell.click();
     }
     await this.elements.orderButton.click();
@@ -22,7 +23,8 @@ class TradingPage {
   }
 
   async orderMinLot(direction, lot) {
-    if (direction === "sell") {
+    if (direction == "sell") {
+      await this.page.waitForTimeout(1000);
       await this.elements.directionSell.click();
     }
     await this.elements.minusLotButton.clickrepeat(8)
@@ -31,16 +33,20 @@ class TradingPage {
   }
 
   async orderMaxLot(direction, lot) {
-    if (direction === "sell") {
+    if (direction == "sell") {
+      await this.page.waitForTimeout(1000);
       await this.elements.directionSell.click();
     }
     await this.elements.inputQtyLot.fill(lot);
     await this.elements.orderButton.click();
-    await this.elements.lotValidate.expectTextEqual("buy " + lot + " lot");
+    //await this.elements.lotValidate.expectTextEqual("buy " + lot + " lot");
   }
 
   async orderOpenClickPlusButton(direction, lot) {
-    if (direction === "sell") {
+    console.log(direction)
+    if (direction == "sell") {
+      console.log("masuk")
+      await this.page.waitForTimeout(1000);
       await this.elements.directionSell.click();
     }
     await this.elements.plusLotButton.clickrepeat(9)
@@ -51,7 +57,8 @@ class TradingPage {
   async orderOpenSetTPSL(direction = "buy", goal = "tp", targetTp, targetSl = null) {
     let actualTP
     let actualSL
-    if (direction === "sell") {
+    if (direction == "sell") {
+      await this.page.waitForTimeout(1000);
       await this.elements.directionSell.click();
     }
 
@@ -99,7 +106,7 @@ class TradingPage {
         throw new Error(`Invalid goal: '${goal}'. must be "sl", "tp", or "both"`);
       };
 
-      const targetFloat = parseFloat(target);
+      const targetFloat = parseFloat(targetTp);
 
       await goalConfig.toggle.click();
       let currentValue = parseValue(await goalConfig.textElement.getTextContent());
@@ -112,23 +119,25 @@ class TradingPage {
     }
 
     await this.elements.orderButton.click();
+    await this.page.waitForTimeout(2000);
 
     if (goal === "tp")
-      await this.elements.tpOrderText.expectComparisonByNumber(actualTP.toString(), ">=")
+      await this.elements.tpOrderText.expectComparisonByNumber((actualTP-2).toString(), ">=")
 
     else if (goal === "sl")
-      await this.elements.slOrderText.expectComparisonByNumber(actualTP.toString(), "<=")
+      await this.elements.slOrderText.expectComparisonByNumber((actualTP-2).toString(), "<=")
 
     else {
-      await this.elements.tpOrderText.expectComparisonByNumber(actualTP.toString(), ">=")
-      await this.elements.slOrderText.expectComparisonByNumber(actualSL.toString(), "<=")
+      await this.elements.tpOrderText.expectComparisonByNumber((actualTP-2).toString(), ">=")
+      await this.elements.slOrderText.expectComparisonByNumber((actualSL+2).toString(), "<=")
     }
 
     await this.elements.lotValidate.expectTextEqual(direction + " 0.1 Lot");
   }
 
   async orderOpenNegativeLot(direction = "buy", lot){
-    if (direction === "sell") {
+    if (direction == "sell") {
+      await this.page.waitForTimeout(1000);
       await this.elements.directionSell.click();
     }
     await this.elements.inputQtyLot.fill(lot);

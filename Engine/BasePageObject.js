@@ -50,6 +50,7 @@ class BasePageObject {
   async expectComparisonByNumber(text, comparison = '>=') {
     const content = await this.locator.textContent();
     const contentToFloat = parseFloat(content.replace(/[($)\s]/g, ''));
+    console.log(contentToFloat)
     const target = parseFloat(text);
   
     switch (comparison) {

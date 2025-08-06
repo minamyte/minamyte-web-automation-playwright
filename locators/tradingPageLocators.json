@@ -3,7 +3,7 @@
     "exchangeDropdown": "//div[@id='option-trade-desktop']",
     "exchangeOption": "//select[contains(@class,'tradeDetail border-0')]",
     "directionBuy": "//div[@id='direction-buy']",
-    "directionSell": "//div[@id='direction-sell']",
+    "directionSell": "(//span[@class='pl-25p'])[2]",
     "minusLotButton": "//div[@id='i_qty_2_value']",
     "inputQtyLot": "//input[@id='qty']",
     "plusLotButton": "//div[@id='i_defStepVal']",

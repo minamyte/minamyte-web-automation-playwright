@@ -3,13 +3,12 @@ require('dotenv').config();
 
 module.exports = defineConfig({
   use: {
-    headless: true,
+    headless: false,
     viewport: null, // Allow full screen
     launchOptions: {
       args: ['--start-maximized'],
     },
     trace: 'on-first-retry',
-    slowMo: 100,
     actionTimeout: 40000,
     navigationTimeout: 15000,
   },

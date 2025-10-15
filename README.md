@@ -26,7 +26,7 @@ Git (optional, but recommended)
 
 ```shell
 cd path/to/your/local
-git clone https://github.com/minamyte/mifx-automation.git
+git clone https://github.com/minamyte/minamyte-web-automation-playwright.git
 ```
 
 ## Install dependencies

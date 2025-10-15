@@ -1,9 +1,9 @@
 # List of content
 
-* [MIFX Web Automation Test Framework Feature](#WEB-Automation-Test-Framework-Feature)
+* [Web Automation Test Framework Feature](#WEB-Automation-Test-Framework-Feature)
 
 
-# MIFX WEB Automation Test Framework Feature
+# WEB Automation Test Framework Feature
 - Uses Playwright for browser automation and end-to-end testing.
 - Tests include UI interactions, assertions, and role-based element selectors.
 - Implements a custom method to dynamically adjust selector type based by input json file
